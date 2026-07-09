@@ -3,6 +3,7 @@
 
 #include "hittable.h"
 #include "color.h"
+#include "aabb.h"
 
 class material {
   public:

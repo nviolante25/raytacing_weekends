@@ -2,7 +2,9 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <chrono>
 
+#include "bvh.h"
 #include "vec3.h"
 #include "color.h"
 #include "ray.h"
@@ -57,6 +59,8 @@ int main() {
     auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0, material3));
 
+    world = hittable_list(make_shared<bvh_node>(world));
+
     camera cam;
 
     cam.aspect_ratio      = 16.0 / 9.0;
@@ -72,5 +76,15 @@ int main() {
     cam.defocus_angle = 0.6;
     cam.focus_dist    = 10.0;
 
+    auto start_time = std::chrono::steady_clock::now();
+
     cam.render(world);
+
+    auto end_time = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count();
+
+    int minutes = elapsed / 60;
+    int seconds = elapsed % 60;
+
+    std::clog << "\nRender time: " << minutes << "m " << seconds << "s\n";
 }
