@@ -11,6 +11,8 @@ class hit_record {
         point3 point;
         vec3 normal;
         double t;
+        double u;
+        double v;
         bool front_face;
         shared_ptr<material> mat;
         
